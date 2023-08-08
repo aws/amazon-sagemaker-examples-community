@@ -1,0 +1,12 @@
+sagemaker-debugger/mnist_tensor_plot/mnist-tensor-plot.ipynb
+sagemaker-debugger/model_specific_realtime_analysis/cnn_class_activation_maps/cnn_class_activation_maps.ipynb
+sagemaker-debugger/mxnet_realtime_analysis/mxnet-realtime-analysis.ipynb
+sagemaker-debugger/mxnet_spot_training/mxnet-spot-training-with-sagemakerdebugger.ipynb
+sagemaker-debugger/pytorch_iterative_model_pruning/iterative_model_pruning_alexnet.ipynb
+sagemaker-debugger/tensorflow2/tensorflow2_keras_custom_container/tf2-keras-custom-container.ipynb
+sagemaker-debugger/tensorflow2/tensorflow2_zero_code_change/tf2-keras-default-container.ipynb
+sagemaker-debugger/tensorflow_profiling/callback_bottleneck.ipynb
+sagemaker-debugger/tensorflow_profiling/tf-resnet-profiling-multi-gpu-multi-node-boto3.ipynb
+sagemaker-debugger/xgboost_realtime_analysis/xgboost-realtime-analysis.ipynb
+sagemaker-debugger/xgboost_training_report/higgs_boson_detection.ipynb
+

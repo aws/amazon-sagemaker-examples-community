@@ -1,0 +1,5 @@
+sagemaker_batch_transform/tensorflow_open-images_jpg/tensorflow-serving-jpg-cli.ipynb
+sagemaker_batch_transform/tensorflow_open-images_tfrecord/tensorflow-serving-tfrecord-python-sdk.ipynb
+sagemaker_batch_transform/tensorflow_open-images_tfrecord/tensorflow-serving-tfrecord.cli.ipynb
+sagemaker_batch_transform/working_with_tfrecords/working-with-tfrecords.ipynb
+
