@@ -1,8 +1,9 @@
-training/distributed_training/pytorch/data_parallel/maskrcnn/pytorch_smdataparallel_maskrcnn_demo.ipynbsagemaker-training-compiler/huggingface/pytorch_tune_batch_size/finding_max_batch_size_for_model_training.ipynb
-training/distributed_training/pytorch/data_parallel/efficientnet/pytorch_smdataparallel_efficientnet_demo.ipynb
-training/distributed_training/pytorch/data_parallel/maskrcnn/pytorch_smdataparallel_maskrcnn_demo.ipynb
-training/distributed_training/pytorch/data_parallel/rnnt/RNNT_notebook.ipynb
-training/distributed_training/pytorch/data_parallel/yolov5/yolov5.ipynb
-training/distributed_training/tensorflow/data_parallel/efficientnet/tensorflow2_smdataparallel_efficientnet_demo.ipynb
-training/distributed_training/tensorflow/data_parallel/maskrcnn/tensorflow2_smdataparallel_maskrcnn_demo.ipynb
+Amazon SageMaker Distributed Training Notebooks
 
+Welcome to the "training" folder of the Amazon SageMaker Community Notebooks repository. This section is dedicated to showcasing the capabilities of Amazon SageMaker's distributed training features.
+
+The notebooks presented here demonstrate how to leverage Amazon SageMaker's distributed library, with a focus on the smdistributed.dataparallel framework. This framework enables efficient distributed data parallel training across popular deep learning frameworks like PyTorch, TensorFlow, and MXNet.
+
+Through these notebooks, you'll explore how to utilize SageMaker's distributed training to train machine learning models faster and more cost-effectively. The focus is on distributing the training workload across multiple instances, enhancing convergence rates, and achieving performance gains on large datasets. SageMaker abstracts the complexities of setting up and managing distributed training, making it accessible to a broader range of practitioners.
+
+Feel free to delve into these notebooks to discover the potential of distributed training on Amazon SageMaker and how it can elevate your machine learning workflows.
