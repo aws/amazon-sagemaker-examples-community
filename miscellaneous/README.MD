@@ -1,0 +1,1 @@
+This folder contains examples which do not belong a specific phase of ML lifecycle and/or depict an end-to-end functionality.
