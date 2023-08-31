@@ -3,6 +3,8 @@
 Amazon SageMaker Community Notebooks
 Welcome to the Amazon SageMaker Community Notebooks repository! This repository is designed to be a space where additional notebooks, beyond those critical for showcasing key SageMaker functionality, can be shared and explored by the community. While the primary SageMaker Example Notebooks repository focuses on demonstrating the core capabilities of Amazon SageMaker, this community repository aims to provide supplementary resources, tips, and innovative use cases.
 
+The Main Notebook repository showcasing critical sagemaker functionality is found [here](https://github.com/aws/amazon-sagemaker-examples)
+
 📚 Purpose
 
 Amazon SageMaker is a powerful tool for simplifying machine learning workflows, from data preprocessing to model deployment. However, the journey of mastering SageMaker often involves experimentation, creative problem-solving, and the exploration of unique approaches that might not fit the standard showcase format. This community repository is here to accommodate such scenarios by hosting a collection of notebooks that might not fit the conventional mold but still provide valuable insights, alternative techniques, and unconventional applications of SageMaker.
