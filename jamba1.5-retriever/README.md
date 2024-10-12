@@ -1,100 +1,46 @@
+# Jamba Retriever: Fine-Tuning Jamba Models for Embedding Generation
 
-# JambaRetriever: A SageMaker-based Model Fine-Tuning and Inference Solution
+This notebook demonstrates how to fine-tune a jamba-based model (`ai21labs/Jamba-tiny-dev`) using a contrastive loss function for embedding generation. The notebook guides you through a step-by-step process of training the model using a dataset of sentence pairs and their similarity scores. After training, the model will be able to generate embeddings where similar sentences are closer in vector space, and dissimilar sentences are farther apart. Both model and dataset ara available in Huggingface here:
 
-This repository contains a SageMaker-based solution for fine-tuning the Jamba model for embedding generation and similarity search tasks. The primary components include a Jupyter notebook (`JambaRetriever.ipynb`), along with a training script (`train.py`), an inference script (`inference.py`), and a `requirements.txt` file detailing the necessary dependencies.
+    **Model: ai21labs/Jamba-tiny-dev : https://huggingface.co/ai21labs/Jamba-tiny-dev
+    **Dataset: PhilipMay/stsb_multi_mt: https://huggingface.co/datasets/PhilipMay/stsb_multi_mt
 
-The Jupyter notebook is designed to guide you through the entire process, from setting up the environment to running distributed training on SageMaker and deploying the fine-tuned model for inference.
+## Why Jamba is Efficient for RAG Use Cases:
 
-## Components
+Jamba, with its hybrid MAMBA-transformer architecture, addresses some of the inefficiencies of traditional transformers by focusing on reducing computational overhead, making it faster and more efficient. This makes it an ideal candidate for **RAG workflows**, where generating embeddings quickly and efficiently is crucial for real-time retrieval tasks. By leveraging this efficiency, embedding models based on Jamba can perform high-quality similarity searches and retrieval tasks with reduced latency, benefiting use cases like chatbots, search engines, and document retrieval systems.
 
-### 1. Jupyter Notebook: `JambaRetriever.ipynb`
-This notebook is the main entry point for users. It contains step-by-step instructions to:
-- Set up the necessary SageMaker environment.
-- Configure the model, dataset, and training parameters.
-- Run distributed training using SageMaker's HuggingFace Estimator.
-- Deploy the fine-tuned model for inference.
-- Test the deployed model by sending requests and retrieving embeddings.
+## The notebook covers the following steps:
 
-### 2. Training Script: `train.py`
-This Python script handles the model fine-tuning. It uses the Hugging Face library to:
-- Load the pre-trained Jamba model and tokenizer.
-- Process the input data into suitable formats for training.
-- Train the model on a specified dataset.
-- Save the fine-tuned model to an Amazon S3 bucket for future use.
-- Log metrics and outputs for tracking performance.
+1. **Step 0: Install Necessary Dependencies**  
+   _Goal:_ To ensure that the required Python libraries are available to load datasets, process text, train models, and interact with AWS SageMaker for deployment. This step prepares the environment for all subsequent operations.
 
-### 3. Inference Script: `inference.py`
-The `inference.py` script is used for deploying the model and handling inference tasks. Once the model is trained and deployed as an endpoint, this script:
-- Loads the fine-tuned model and tokenizer.
-- Pre-processes the input text into token embeddings.
-- Generates output embeddings based on the input sentences.
-- Sends these embeddings for downstream tasks such as similarity searches.
+2. **Step 1: Dataset Preparation**  
+   _Goal:_ To load and preprocess the dataset (`PhilipMay/stsb_multi_mt`), which contains pairs of sentences and their similarity scores. Preprocessing involves tokenizing the text so that it can be fed into the model during training.
 
-### 4. Requirements: `requirements.txt`
-The `requirements.txt` file specifies the Python dependencies necessary to run the notebook and the associated scripts. Key libraries include:
-- `transformers==4.41.2`: Provides Hugging Face's transformer models and tokenizers.
-- `mamba-ssm`: Required for specialized model layers.
-- `causal-conv1d>=1.2.0`: Adds causal convolution layers.
-- `accelerate>=0.26.0`: Enables distributed training across multiple GPUs.  
+3. **Step 2: Model Definition and Tokenizer Setup**  
+   _Goal:_ The `ai21labs/Jamba-tiny-dev` model is pre-trained but needs to be fine-tuned for our specific task. We define the model architecture and the tokenizer that converts raw text into tokenized inputs required by the model.
 
-Ensure that you install the required dependencies using:
-```bash
-pip install -r requirements.txt
-```
-> Note: The `transformers` version is pinned to avoid compatibility issues with the `Conversation` class (see [Hugging Face Discussion](https://discuss.huggingface.co/t/cannot-import-conversation-from-transformers-utils-py/91556))【8†source】.
+4. **Step 3: Define the Contrastive Loss Function**  
+   _Goal:_ To teach the model to push embeddings of similar sentences closer in vector space and dissimilar sentences farther apart. The contrastive loss function is crucial for learning high-quality embeddings for similarity tasks.
 
-## Getting Started
+5. **Step 4: Custom Data Collator**  
+   _Goal:_ Sentence lengths vary across the dataset, so we need to dynamically pad sentences during training. The custom data collator handles padding to ensure all sentences in a batch are the same length, allowing efficient processing by the model.
 
-### Prerequisites
-Before running the notebook, ensure you have:
-- An AWS account with the necessary permissions for using SageMaker.
-- Access to Amazon S3 for storing model artifacts.
-- SageMaker Studio or a local Jupyter environment with appropriate configurations.
+6. **Step 5: Training the Model**  
+   _Goal:_ Fine-tuning adjusts the model's parameters so that it learns to generate useful embeddings for our task. The model will optimize based on the contrastive loss function to generate better embeddings for similar and dissimilar sentences.
 
-### Steps to Run the Notebook
+7. **Step 6: Save Model to S3**  
+   _Goal:_ To securely store the fine-tuned model in Amazon S3 for future use in inference or further fine-tuning. This ensures that the model is preserved beyond the current session.
 
-1. **Set Up the Environment**
-   - Open the `JambaRetriever.ipynb` notebook in SageMaker Studio or a Jupyter environment.
-   - Run the initial setup cells to configure AWS roles, specify S3 paths, and install any missing dependencies.
+8. **Step 7: Deploy the Model to SageMaker**  
+   _Goal:_ To make the model accessible for real-time inference, we deploy it to a SageMaker endpoint. This allows external applications to send requests to the model and get embeddings in return.
 
-2. **Download and Prepare the Dataset**
-   - The notebook will guide you through downloading the training dataset (`stsb_multi_mt`) from Hugging Face.
-   - Preprocess the dataset into tokenized inputs for the Jamba model.
+9. **Step 8: Test the Model with Similar and Dissimilar Sentences**  
+   _Goal:_ To verify that the model is performing as expected by sending test sentences through the deployed endpoint. We check that the model generates embeddings where similar sentences are mapped closer together in the vector space.
 
-3. **Fine-Tune the Jamba Model**
-   - Train the pre-trained Jamba model using the `train.py` script, running distributed training across multiple GPUs.
-   - Training parameters such as batch size, learning rate, and number of epochs can be customized in the notebook.
+10. **Step 9: Compute Distance and Plot Results**  
+    _Goal:_ To compute the cosine similarity between sentence embeddings and visualize the results. This step helps validate that the embeddings generated by the model accurately reflect sentence similarity and allows us to visually assess the model's performance with color-coded results.
 
-4. **Deploy the Model for Inference**
-   - Once training is complete, deploy the model as a SageMaker endpoint.
-   - The notebook will handle the deployment process, using the `inference.py` script to configure the inference behavior.
+---
 
-5. **Test the Deployed Model**
-   - Use the provided test cases in the notebook to send text inputs to the deployed model.
-   - Evaluate the quality of the embeddings generated for similar and dissimilar sentences.
-
-### Example Usage
-
-Once the endpoint is deployed, you can call it for inference as follows:
-```python
-predictor = huggingface_model.deploy(
-    initial_instance_count=1, 
-    instance_type='ml.p3.8xlarge'
-)
-
-response = predictor.predict({
-    'inputs': "Your input sentence here"
-})
-
-print(response)
-```
-
-## Future Work
-
-In future iterations, we aim to:
-- Optimize the model for lower latency in high-throughput environments.
-- Experiment with different loss functions, such as contrastive loss, for better embedding performance.
-- Extend support for more input data formats and tasks beyond text similarity.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+At the end of this notebook, you will have a fully trained and deployed transformer model capable of generating high-quality embeddings, which can be used for tasks such as retrieval-augmented generation (RAG) workflows and sentence similarity searches. Please note that for the purposes of showcasing these capabilities via SageMaker and The Huggingface Inference Toolkit we have chosen the Dev version of Jamba1.5. which does not take long to download and train and can be deployed on smaller GPU instances
