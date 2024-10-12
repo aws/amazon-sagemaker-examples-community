@@ -1,0 +1,4 @@
+transformers==4.41.2  # Pin version due to error with Conversation Class - https://discuss.huggingface.co/t/cannot-import-conversation-from-transformers-utils-py/91556
+mamba-ssm 
+causal-conv1d>=1.2.0
+accelerate>=0.26.0
