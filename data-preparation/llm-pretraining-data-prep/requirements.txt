@@ -1,2 +1,0 @@
-datatrove[all]
-nltk
